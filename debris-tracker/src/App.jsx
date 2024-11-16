@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Navbar from "./components/navbar/navbar";
 import Risk from "./pages/NASA/risk";
 import InputForm from "./pages/InputForm";
 import About from "./pages/About";
@@ -7,6 +8,7 @@ import HomeFeed from "./pages/HomeFeed";
 function App() {
   return (
     <Router>
+      <Navbar />
       <Routes>
         <Route path="/" element={<About />} />
         <Route path="/risk" element={<Risk />} />

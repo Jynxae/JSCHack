@@ -26,10 +26,4 @@ dist-ssr
 #database stuff
 DigiCertGlobalRootG2.crt.pem
 .env
-make a .env with this in it NOW
 
-DB_HOST=space-guard.mysql.database.azure.com
-DB_PORT=3306
-DB_USER=ykhan5
-DB_PASSWORD=JSChack!
-DB_DATABASE=Space Guard
