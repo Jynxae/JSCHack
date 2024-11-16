@@ -2,7 +2,7 @@ import React from "react";
 
 function About() {
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center p-6">
+    <div className="min-h-screen w-screen bg-gray-100 flex items-center justify-center p-6">
       <div className="max-w-4xl bg-white shadow-lg rounded-lg p-8">
         <h1 className="text-3xl font-bold text-gray-800 mb-4 text-center">
           About the Debris Tracker
