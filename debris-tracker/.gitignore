@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+#database stuff
+DigiCertGlobalRootG2.crt.pem
+.env
+
