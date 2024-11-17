@@ -7,7 +7,7 @@ const connectionPool = mysql
     host: "space-guard.mysql.database.azure.com",
     port: process.env.DB_PORT,
     user: "ykhan5",
-    password: "Jschack!",
+    password: process.env.DB_PASSWORD,
     database: "satellitetracking",
   })
   .promise();
