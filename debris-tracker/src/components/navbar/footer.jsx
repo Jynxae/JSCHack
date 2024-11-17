@@ -1,17 +1,15 @@
-function footer() {
+import Logo from "../../assets/LogoNoTitle.png";
+
+function Footer() {
   return (
-    <footer className="body-font bg-[#615D51] text-white">
-      <div className="flex py-8 items-center sm:flex-row flex-col w-full">
+    <footer className="body-font bg-white">
+      <div className="flex py-8 items-center sm:flex-row flex-col w-full ml-44">
         <a
-          className="flex title-font font-medium items-center md:justify-start justify-center text-white"
+          className="flex items-center space-x-2 md:justify-start justify-center text-white"
           href="/"
         >
-          <img
-            src="/logo.svg"
-            alt="logo"
-            className="border-2 rounded-full w-12 mx-10"
-          ></img>
-          <span className="ml-3 text-xl text-gray-800">Debris Tracker</span>
+          <img src={Logo} alt="logo" className="w-24"></img>
+          <span className="text-xl text-gray-800">Debris Tracker</span>
         </a>
         <p className="text-sm text-gray-800 sm:ml-4 sm:pl-4 sm:border-l-2 sm:border-gray-800 sm:py-2 sm:mt-0 mt-4">
           © 2024 JSCHack
@@ -37,4 +35,5 @@ function footer() {
     </footer>
   );
 }
-export default footer;
+
+export default Footer;
