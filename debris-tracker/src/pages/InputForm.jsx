@@ -29,7 +29,7 @@ function InputForm() {
   };
 
   return (
-    <div className="mx-[500px] p-6 bg-gray-700 rounded-lg shadow-md justify-center">
+    <div className="mx-[500px] p-6 bg-gray-700 rounded-lg shadow-md justify-center font-sans mt-12">
         <h2 className="text-2xl font-bold mb-4 text-white">Debris Identification Form</h2>
       <form onSubmit={handleSubmit} className="space-y-4 justify-center w-full">
         <div>
