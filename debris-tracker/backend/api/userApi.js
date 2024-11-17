@@ -1,24 +1,27 @@
-const express = require("express");
-const router = express.Router();
-const pool = require("../server/database");
+import { connectionPool } from "../server/database.js";
 
-// Simple test endpoint that also checks database connection
-router.get("/test", async (req, res) => {
-  console.log("here");
+export async function getUsername(req, res) {
+  try {
+    const userID = req.params.userID; // Get userID from URL parameters
 
-  //   try {
-  //     // Test database connection
-  //     await pool.query("SELECT 1"); // Simple query to test connection
-  //     res.json({
-  //       message: "Backend and database connection successful!",
-  //       database: "Connected",
-  //     });
-  //   } catch (error) {
-  //     res.status(500).json({
-  //       message: "Backend connected, but database error",
-  //       database: "Error: " + error.message,
-  //     });
-  //   }
-});
+    const query = "SELECT Username FROM users WHERE UserID = ?";
 
-module.exports = router;
+    connectionPool.query(query, [userID], (error, results) => {
+      if (error) {
+        console.error("Database error:", error);
+        return res
+          .status(500)
+          .json({ error: "Error finding data in the database" });
+      }
+
+      if (!results.length) {
+        return res.status(404).json({ error: "User not found" });
+      }
+
+      res.status(200).json(results);
+    });
+  } catch (error) {
+    console.error("Server error:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+}

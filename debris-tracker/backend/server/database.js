@@ -1,37 +1,27 @@
-import mysql from "mysql2";
 import dotenv from "dotenv";
-dotenv.config();
+import { fileURLToPath } from "url";
+import { dirname } from "path";
+import fs from "node:fs";
+import mysql2 from "mysql2";
 
-const connectionPool = mysql
-  .createPool({
-    host: "space-guard.mysql.database.azure.com",
-    port: process.env.DB_PORT,
-    user: "ykhan5",
-    password: process.env.DB_PASSWORD,
-    database: "satellitetracking",
-  })
-  .promise();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
-async function getUsername(id) {
-  const [rows] = await connectionPool.query(
-    `
-    SELECT Username 
-    FROM users 
-    WHERE UserID = ?;
-    `,
-    [id]
-  );
-  return rows;
-}
+dotenv.config({ path: `${__dirname}/.env` });
 
-// Export the getUsername function
-export { getUsername };
+const connectionPool = mysql2.createPool({
+  host: "space-guard.mysql.database.azure.com",
+  port: process.env.DB_PORT,
+  user: "ykhan5",
+  password: "Jschack!",
+  database: "satellitetracking",
+});
 
-(async () => {
-  try {
-    const res = await getUsername(3); // Await the result
-    console.log(res);
-  } catch (error) {
-    console.error("Error fetching username:", error);
-  }
-})();
+connectionPool.getConnection((err, connection) => {
+  if (err)
+    return console.error("Error connecting to MySQL database:", err.stack);
+  console.log("Connected to MySQL database as id", connection.threadId);
+  connection.release();
+});
+
+export { connectionPool };

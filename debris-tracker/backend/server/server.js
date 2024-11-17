@@ -1,19 +1,23 @@
 import express from "express";
+import bodyParser from "body-parser";
+import cors from "cors";
+import { getUsername } from "../api/userApi.js";
 
 const app = express();
 
-import { getUsername } from "./database.js";
+// Middleware
+app.use(bodyParser.json());
 
-app.get("/username", async (req, res) => {
-  const name = await getUsername(2);
-  res.send(name);
-});
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+  })
+);
 
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).send("Something broke!");
-});
+// Changed to GET and updated the path to include the userID as a parameter
+app.get("/api/user/getUsername/:userID", getUsername);
 
-app.listen(3000, () => {
-  console.log("server is running on azure");
+const PORT = process.env.PORT || 5171;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });

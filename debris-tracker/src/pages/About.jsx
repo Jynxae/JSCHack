@@ -1,6 +1,28 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 
 function About() {
+  const [username, setUsername] = useState("");
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    console.log("hello????");
+    const getUsername = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:5171/api/user/getUsername/3"
+        );
+        console.log(response.data);
+        setUsername(response.data[0]?.Username || "");
+      } catch (error) {
+        console.error("Error fetching username:", error);
+        setError(error.message);
+      }
+    };
+
+    getUsername();
+  }, []);
+
   return (
     <div className="min-h-screen w-screen bg-gray-100 flex items-center justify-center p-6">
       <div className="max-w-4xl bg-white shadow-lg rounded-lg p-8">
@@ -29,7 +51,8 @@ function About() {
         </ul>
         <div className="mt-8 text-center">
           <p className="text-gray-700 font-semibold">
-            Together, we are making space safer for everyone.
+            Together, we are making space safer for everyone. Thank you{" "}
+            {username}!
           </p>
         </div>
       </div>
