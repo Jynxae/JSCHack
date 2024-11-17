@@ -3,7 +3,7 @@ import Logo from "../../assets/LogoNoTitle.png";
 function Footer() {
   return (
     <footer className="body-font bg-white">
-      <div className="flex py-8 items-center sm:flex-row flex-col w-full ml-44">
+      <div className="flex py-8 items-center sm:flex-row flex-col w-full pl-44">
         <a
           className="flex items-center space-x-2 md:justify-start justify-center text-white"
           href="/"
