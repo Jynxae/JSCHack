@@ -7,13 +7,16 @@ import mysql2 from "mysql2";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-dotenv.config({ path: `${__dirname}/.env` });
+dotenv.config({ path: `${__dirname}/../../../.env` });
+
+console.log('DB_PASSWORD:', process.env.DB_PASSWORD);
+
 
 const connectionPool = mysql2.createPool({
   host: "space-guard.mysql.database.azure.com",
   port: process.env.DB_PORT,
   user: "ykhan5",
-  password: "Jschack!",
+  password: process.env.DB_PASSWORD,
   database: "satellitetracking",
 });
 
