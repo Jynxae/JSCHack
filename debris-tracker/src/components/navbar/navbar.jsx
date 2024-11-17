@@ -20,14 +20,14 @@ function Navbar() {
 
           <ul className="flex space-x-24 justify-items-center pr-96">
             <li>
-              <Link to="/risk" className="text-gray-600 hover:text-gray-900">
+              <Link to="/risk" className="text-gray-600 font-bold hover:text-gray-900">
                 Risk Page
               </Link>
             </li>
             <li>
               <Link
                 to="/input-form"
-                className="text-gray-600 hover:text-gray-900"
+                className="text-gray-600 font-bold hover:text-gray-900"
               >
                 Input Form
               </Link>
@@ -35,7 +35,7 @@ function Navbar() {
             <li>
               <Link
                 to="/home-feed"
-                className="text-gray-600 hover:text-gray-900"
+                className="text-gray-600 font-bold hover:text-gray-900"
               >
                 Home Feed
               </Link>

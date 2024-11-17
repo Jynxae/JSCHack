@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import axios from "axios";
+//import axios from "axios";
+import stars from "../assets/stars.jpg";
 
 function InputForm() {
   const [formData, setFormData] = useState({
@@ -87,7 +88,8 @@ function InputForm() {
     "w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white";
 
   return (
-    <div className="min-h-screen w-screen bg-gray-100 flex items-center justify-center p-6">
+    <div className="min-h-screen w-screen bg-gray-100 flex items-center justify-center p-6 mt-5"
+    style={{ backgroundImage: `url(${stars})`, backgroundSize: "40%", backgroundPosition: "center" }}>
       <div className="max-w-4xl w-full bg-white shadow-md rounded-lg p-6">
         <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
           Observation Form
