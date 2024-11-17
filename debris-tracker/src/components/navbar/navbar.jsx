@@ -17,12 +17,12 @@ function Navbar() {
           </div>
 
           <ul className="flex space-x-16">
-            <li>
+          <li>
               <Link
-                to="/risk"
+                to="/home-feed"
                 className="text-gray-600 font-bold hover:text-gray-900"
               >
-                Risk Page
+                Home Feed
               </Link>
             </li>
             <li>
@@ -33,12 +33,13 @@ function Navbar() {
                 Input Form
               </Link>
             </li>
+
             <li>
               <Link
-                to="/home-feed"
+                to="/risk"
                 className="text-gray-600 font-bold hover:text-gray-900"
               >
-                Home Feed
+                Risk Page
               </Link>
             </li>
           </ul>
