@@ -19,6 +19,7 @@
     "fetch": "^1.1.0",
     "iconv-lite": "^0.6.3",
     "install": "^0.13.0",
+    "lucide-react": "^0.460.0",
     "mysql2": "^3.11.4",
     "node-fetch": "^3.3.2",
     "npm": "^10.9.0",
