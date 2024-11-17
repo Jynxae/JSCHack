@@ -17,8 +17,10 @@
     "express": "^4.21.1",
     "fetch": "^1.1.0",
     "iconv-lite": "^0.6.3",
+    "install": "^0.13.0",
     "mysql2": "^3.11.4",
     "node-fetch": "^3.3.2",
+    "npm": "^10.9.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "safer-buffer": "^2.1.2"
