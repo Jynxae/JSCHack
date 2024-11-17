@@ -16,7 +16,7 @@ function Navbar() {
           <h1 className="text-xl font-bold text-gray-800">Debris Tracker</h1>
           <ul className="flex space-x-24 justify-items-center pr-72">
             <li>
-              <Link to="/about" className="text-gray-600 hover:text-gray-900">
+              <Link to="/" className="text-gray-600 hover:text-gray-900">
                 About
               </Link>
             </li>
