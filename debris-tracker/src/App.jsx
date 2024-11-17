@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/navbar/navbar";
+import Footer from "./components/navbar/footer";
 import Risk from "./pages/NASA/risk";
 import InputForm from "./pages/InputForm";
 import About from "./pages/About";
@@ -15,6 +16,7 @@ function App() {
         <Route path="/input-form" element={<InputForm />} />
         <Route path="/home-feed" element={<HomeFeed />} />
       </Routes>
+      <Footer />
     </Router>
   );
 }
