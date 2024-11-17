@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Star = ({ style }) => (
   <div
@@ -31,6 +32,7 @@ const StarField = () => {
 };
 
 function Login() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -76,11 +78,16 @@ function Login() {
       try {
         // Here you would normally make an API call to your backend
         console.log("Form submitted:", formData);
+
+        // Simulate successful login
         // Reset form after successful submission
         setFormData({
           email: "",
           password: "",
         });
+
+        // Redirect to home page after successful login
+        navigate("/");
       } catch (error) {
         console.error("Login error:", error);
         setErrors((prev) => ({
