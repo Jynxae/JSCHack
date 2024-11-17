@@ -26,4 +26,3 @@ dist-ssr
 #database stuff
 DigiCertGlobalRootG2.crt.pem
 .env
-
