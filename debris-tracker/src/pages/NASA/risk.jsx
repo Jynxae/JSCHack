@@ -101,9 +101,9 @@ const RiskCard = ({ risk }) => {
 
 function RiskFeed() {
   return (
-    <div className="min-h-screen w-screen bg-gray-100 flex items-center justify-center p-6">
-      <div className="max-w-4xl w-full bg-white shadow-md rounded-lg p-6">
-        <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
+    <div className="min-h-screen w-screen bg-[#1B1A55] flex items-center justify-center p-6 mt-7">
+      <div className="max-w-4xl w-full bg-[#9290C3] shadow-md rounded-lg p-6">
+        <h1 className="text-3xl font-bold text-[#1B1A55] mb-6 text-center">
           Risk Assessment Dashboard
         </h1>
 
