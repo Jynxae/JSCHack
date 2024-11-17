@@ -9,3 +9,4 @@ app.get("/api/test", (req, res) => {
 app.listen(3000, () => {
   console.log("Backend is running on port 3000");
 });
+
