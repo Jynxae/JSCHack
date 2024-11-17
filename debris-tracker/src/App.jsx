@@ -5,7 +5,8 @@ import Risk from "./pages/NASA/risk";
 import InputForm from "./pages/InputForm";
 import About from "./pages/About";
 import HomeFeed from "./pages/HomeFeed";
-
+import Login from "./pages/login";
+import SignUp from "./pages/Signup";
 
 function App() {
   return (
@@ -16,6 +17,8 @@ function App() {
         <Route path="/risk" element={<Risk />} />
         <Route path="/input-form" element={<InputForm />} />
         <Route path="/home-feed" element={<HomeFeed />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<SignUp />} />
       </Routes>
       <Footer />
     </Router>
