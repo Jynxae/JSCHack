@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import axios from "axios";
+//import axios from "axios";
+import stars from "../assets/stars.jpg";
 
 function InputForm() {
   const [formData, setFormData] = useState({
@@ -100,7 +101,7 @@ function InputForm() {
           ></div>
         ))}
       </div>
-
+      
       {/* Form Content */}
       <div className="flex items-center justify-center p-6 relative z-10 mt-16">
         <div

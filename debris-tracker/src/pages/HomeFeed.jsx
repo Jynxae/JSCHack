@@ -1,4 +1,5 @@
 import React from "react";
+import longstars from "../assets/longstars.jpg"
 
 const feedData = [
   {
