@@ -1,80 +1,119 @@
 import React, { useState } from "react";
+import axios from "axios";
 
 function InputForm() {
   const [formData, setFormData] = useState({
-    date: "",
-    time: "",
-    location: "",
-    velocity: "",
-    direction: "",
-    doppler: "",
-    method: "Yes",
-    longitude: "",
-    latitude: "",
-    angle: "",
-    azimuth: "",
-    comments: "",
+    ObservationDateTime: "",
+    RightAscensionHours: "",
+    RightAscensionMinutes: "",
+    RightAscensionSeconds: "",
+    DeclinationDegrees: "",
+    DeclinationMinutes: "",
+    DeclinationSeconds: "",
+    DeclinationDirection: "",
+    AngleAboveHorizon: "",
+    Azimuth: ""
   });
+
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    console.log('Field changed:', name, 'New value:', value);
+    
+    // Process numerical values
+    let processedValue = value;
+    if (name !== 'ObservationDateTime' && name !== 'DeclinationDirection') {
+      processedValue = value === '' ? null : Number(value);
+    }
+    
+    setFormData(prevState => {
+      const newState = { ...prevState, [name]: processedValue };
+      console.log('New form state:', newState);
+      return newState;
+    });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
-    alert("Form submitted! Check the console for details.");
+    setError(null);
+    setSuccess(false);
+
+    try {
+      // Format date-time to match MySQL datetime format
+      const formattedData = {
+        ...formData,
+        ObservationDateTime: formData.ObservationDateTime 
+          ? new Date(formData.ObservationDateTime).toISOString().slice(0, 19).replace('T', ' ')
+          : null
+      };
+
+      console.log('Submitting formatted data:', formattedData);
+
+      const response = await axios.post(
+        "http://localhost:5171/api/observations/insert", 
+        formattedData,
+        {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+
+      console.log("Server response:", response.data);
+      setSuccess(true);
+      
+      // Clear form after successful submission
+      setFormData({
+        ObservationDateTime: "",
+        RightAscensionHours: "",
+        RightAscensionMinutes: "",
+        RightAscensionSeconds: "",
+        DeclinationDegrees: "",
+        DeclinationMinutes: "",
+        DeclinationSeconds: "",
+        DeclinationDirection: "",
+        AngleAboveHorizon: "",
+        Azimuth: ""
+      });
+    } catch (err) {
+      console.error("Error submitting form:", err);
+      setError(err.response?.data?.error || "Error submitting form");
+    }
   };
 
-  const inputClassName = "w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white";
+  const inputClassName =
+    "w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white";
 
   return (
     <div className="min-h-screen w-screen bg-gray-100 flex items-center justify-center p-6">
       <div className="max-w-4xl w-full bg-white shadow-md rounded-lg p-6">
         <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
-          Debris Identification Form
+          Observation Form
         </h1>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <label className="block font-medium text-gray-700 mb-2">
-                Date of Identification (Month/Day/Year):
-              </label>
-              <input
-                type="text"
-                name="date"
-                value={formData.date}
-                onChange={handleChange}
-                required
-                className={inputClassName}
-              />
-            </div>
-
-            <div>
-              <label className="block font-medium text-gray-700 mb-2">
-                Time of Identification (Hours:Minutes):
-              </label>
-              <input
-                type="text"
-                name="time"
-                value={formData.time}
-                onChange={handleChange}
-                required
-                className={inputClassName}
-              />
-            </div>
+        {error && (
+          <div className="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
+            {error}
           </div>
+        )}
 
+        {success && (
+          <div className="mb-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded">
+            Form submitted successfully!
+          </div>
+        )}
+
+        <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <label className="block font-medium text-gray-700 mb-2">
-              Location of Identification (City, Country):
+              Observation Date and Time: <span className="text-red-500">*</span>
             </label>
             <input
-              type="text"
-              name="location"
-              value={formData.location}
+              type="datetime-local"
+              name="ObservationDateTime"
+              value={formData.ObservationDateTime}
               onChange={handleChange}
               required
               className={inputClassName}
@@ -84,138 +123,166 @@ function InputForm() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div>
               <label className="block font-medium text-gray-700 mb-2">
-                Velocity of Debris (Optional):
+                Right Ascension Hours:
               </label>
               <input
-                type="text"
-                name="velocity"
-                value={formData.velocity}
+                type="number"
+                step="any"
+                name="RightAscensionHours"
+                value={formData.RightAscensionHours}
                 onChange={handleChange}
                 className={inputClassName}
+                placeholder="Hours"
+                min="0"
+                max="24"
               />
             </div>
 
             <div>
               <label className="block font-medium text-gray-700 mb-2">
-                Direction of Debris (Optional):
+                Right Ascension Minutes:
               </label>
               <input
-                type="text"
-                name="direction"
-                value={formData.direction}
+                type="number"
+                step="any"
+                name="RightAscensionMinutes"
+                value={formData.RightAscensionMinutes}
                 onChange={handleChange}
                 className={inputClassName}
+                placeholder="Minutes"
+                min="0"
+                max="60"
               />
             </div>
 
             <div>
               <label className="block font-medium text-gray-700 mb-2">
-                Doppler Effect (Optional):
+                Right Ascension Seconds:
               </label>
               <input
-                type="text"
-                name="doppler"
-                value={formData.doppler}
+                type="number"
+                step="any"
+                name="RightAscensionSeconds"
+                value={formData.RightAscensionSeconds}
                 onChange={handleChange}
                 className={inputClassName}
+                placeholder="Seconds"
+                min="0"
+                max="60"
               />
             </div>
           </div>
 
-          <div>
-            <label className="block font-medium text-gray-700 mb-2">
-              Usage of Right Ascension and Declination:
-            </label>
-            <select
-              name="method"
-              value={formData.method}
-              onChange={handleChange}
-              className={inputClassName}
-            >
-              <option value="Yes">Yes</option>
-              <option value="No">No</option>
-            </select>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+            <div>
+              <label className="block font-medium text-gray-700 mb-2">
+                Declination Degrees:
+              </label>
+              <input
+                type="number"
+                step="any"
+                name="DeclinationDegrees"
+                value={formData.DeclinationDegrees}
+                onChange={handleChange}
+                className={inputClassName}
+                placeholder="Degrees"
+                min="-90"
+                max="90"
+              />
+            </div>
+
+            <div>
+              <label className="block font-medium text-gray-700 mb-2">
+                Declination Minutes:
+              </label>
+              <input
+                type="number"
+                step="any"
+                name="DeclinationMinutes"
+                value={formData.DeclinationMinutes}
+                onChange={handleChange}
+                className={inputClassName}
+                placeholder="Minutes"
+                min="0"
+                max="60"
+              />
+            </div>
+
+            <div>
+              <label className="block font-medium text-gray-700 mb-2">
+                Declination Seconds:
+              </label>
+              <input
+                type="number"
+                step="any"
+                name="DeclinationSeconds"
+                value={formData.DeclinationSeconds}
+                onChange={handleChange}
+                className={inputClassName}
+                placeholder="Seconds"
+                min="0"
+                max="60"
+              />
+            </div>
+
+            <div>
+              <label className="block font-medium text-gray-700 mb-2">
+                Declination Direction:
+              </label>
+              <select
+                name="DeclinationDirection"
+                value={formData.DeclinationDirection}
+                onChange={handleChange}
+                className={inputClassName}
+              >
+                <option value="">Select direction</option>
+                <option value="N">North</option>
+                <option value="S">South</option>
+              </select>
+            </div>
           </div>
 
-          {formData.method === "Yes" ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label className="block font-medium text-gray-700 mb-2">
-                  Longitude Coordinates (Degrees/Minutes/Seconds):
-                </label>
-                <input
-                  type="text"
-                  name="longitude"
-                  value={formData.longitude}
-                  onChange={handleChange}
-                  required
-                  className={inputClassName}
-                />
-              </div>
-
-              <div>
-                <label className="block font-medium text-gray-700 mb-2">
-                  Latitude (Degrees/Minutes/Seconds):
-                </label>
-                <input
-                  type="text"
-                  name="latitude"
-                  value={formData.latitude}
-                  onChange={handleChange}
-                  required
-                  className={inputClassName}
-                />
-              </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label className="block font-medium text-gray-700 mb-2">
+                Angle Above Horizon:
+              </label>
+              <input
+                type="number"
+                step="any"
+                name="AngleAboveHorizon"
+                value={formData.AngleAboveHorizon}
+                onChange={handleChange}
+                className={inputClassName}
+                placeholder="Enter angle"
+                min="0"
+                max="90"
+              />
             </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label className="block font-medium text-gray-700 mb-2">
-                  Angle Above Horizon (0-Horizontal, 90-Directly Overhead):
-                </label>
-                <input
-                  type="text"
-                  name="angle"
-                  value={formData.angle}
-                  onChange={handleChange}
-                  required
-                  className={inputClassName}
-                />
-              </div>
 
-              <div>
-                <label className="block font-medium text-gray-700 mb-2">
-                  Azimuth Compass Direction in Degrees (0-N, 90-E, 180-S, 270-W):
-                </label>
-                <input
-                  type="text"
-                  name="azimuth"
-                  value={formData.azimuth}
-                  onChange={handleChange}
-                  required
-                  className={inputClassName}
-                />
-              </div>
+            <div>
+              <label className="block font-medium text-gray-700 mb-2">
+                Azimuth:
+              </label>
+              <input
+                type="number"
+                step="any"
+                name="Azimuth"
+                value={formData.Azimuth}
+                onChange={handleChange}
+                className={inputClassName}
+                placeholder="Enter azimuth"
+                min="0"
+                max="360"
+              />
             </div>
-          )}
-
-          <div>
-            <label className="block font-medium text-gray-700 mb-2">
-              Comments:
-            </label>
-            <textarea
-              name="comments"
-              value={formData.comments}
-              onChange={handleChange}
-              className={`${inputClassName} h-32`}
-            />
           </div>
 
           <button
             type="submit"
             className="w-full bg-blue-500 text-white p-3 rounded-md hover:bg-blue-600 transition duration-200 font-medium"
           >
-            Submit Form
+            Submit Observation
           </button>
         </form>
       </div>
