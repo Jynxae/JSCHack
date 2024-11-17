@@ -4,7 +4,7 @@ import cors from "cors";
 import { getUsername } from "../api/userApi.js";
 import { insertObservation } from "../api/inputApi.js";
 import { getDebrisList } from "../api/debrisApi.js";
-
+import { getLatestObservations } from "../api/homeFeed.js";
 const app = express();
 
 // Middleware
@@ -18,6 +18,7 @@ app.use(
 
 // User routes
 app.get("/api/user/getUsername/:userID", getUsername);
+app.get("/api/feed/latest", getLatestObservations);
 
 // Observation routes
 app.post("/api/observations/insert", insertObservation);
