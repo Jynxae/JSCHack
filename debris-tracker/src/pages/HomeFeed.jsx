@@ -49,8 +49,8 @@ function HomeFeed() {
               <h2 className="text-lg font-bold">
                 {post.name}
               </h2>
-              <p className="text-[#535C91] font-bold">{post.content}</p>
-              <p className="text-sm text-black font-bold">{post.timestamp}</p>
+              <p className="text-gray-800">{post.content}</p>
+              <p className="text-sm text-gray-500">{post.timestamp}</p>
             </div>
           ))}
         </div>
