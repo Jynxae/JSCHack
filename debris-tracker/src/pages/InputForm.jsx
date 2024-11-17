@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import longstars from '../assets/longstars.jpg';
+import axios from "axios";
 
 function InputForm() {
   const [formData, setFormData] = useState({
