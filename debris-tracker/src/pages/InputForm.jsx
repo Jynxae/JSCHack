@@ -12,7 +12,7 @@ function InputForm() {
     DeclinationSeconds: "",
     DeclinationDirection: "",
     AngleAboveHorizon: "",
-    Azimuth: ""
+    Azimuth: "",
   });
 
   const [error, setError] = useState(null);
@@ -20,19 +20,15 @@ function InputForm() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    console.log('Field changed:', name, 'New value:', value);
-    
-    // Process numerical values
-    let processedValue = value;
-    if (name !== 'ObservationDateTime' && name !== 'DeclinationDirection') {
-      processedValue = value === '' ? null : Number(value);
-    }
-    
-    setFormData(prevState => {
-      const newState = { ...prevState, [name]: processedValue };
-      console.log('New form state:', newState);
-      return newState;
-    });
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]:
+        name !== "ObservationDateTime" &&
+        name !== "DeclinationDirection" &&
+        value !== ""
+          ? Number(value)
+          : value,
+    }));
   };
 
   const handleSubmit = async (e) => {
@@ -41,30 +37,25 @@ function InputForm() {
     setSuccess(false);
 
     try {
-      // Format date-time to match MySQL datetime format
       const formattedData = {
         ...formData,
-        ObservationDateTime: formData.ObservationDateTime 
-          ? new Date(formData.ObservationDateTime).toISOString().slice(0, 19).replace('T', ' ')
-          : null
+        ObservationDateTime: formData.ObservationDateTime
+          ? new Date(formData.ObservationDateTime)
+              .toISOString()
+              .slice(0, 19)
+              .replace("T", " ")
+          : null,
       };
 
-      console.log('Submitting formatted data:', formattedData);
-
-      const response = await axios.post(
-        "http://localhost:5171/api/observations/insert", 
+      await axios.post(
+        "http://localhost:5171/api/observations/insert",
         formattedData,
         {
-          headers: {
-            'Content-Type': 'application/json'
-          }
+          headers: { "Content-Type": "application/json" },
         }
       );
 
-      console.log("Server response:", response.data);
       setSuccess(true);
-      
-      // Clear form after successful submission
       setFormData({
         ObservationDateTime: "",
         RightAscensionHours: "",
@@ -75,21 +66,46 @@ function InputForm() {
         DeclinationSeconds: "",
         DeclinationDirection: "",
         AngleAboveHorizon: "",
-        Azimuth: ""
+        Azimuth: "",
       });
     } catch (err) {
-      console.error("Error submitting form:", err);
       setError(err.response?.data?.error || "Error submitting form");
     }
   };
 
   const inputClassName =
-    "w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white";
+    "w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-gray-900";
+
+  const StarField = () => (
+    <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
+      {[...Array(200)].map((_, i) => (
+        <div
+          key={i}
+          className="absolute bg-white rounded-full animate-twinkle"
+          style={{
+            width: `${Math.random() * 2 + 1}px`,
+            height: `${Math.random() * 2 + 1}px`,
+            top: `${Math.random() * 300}vh`,
+            left: `${Math.random() * 100}vw`,
+            animationDelay: `${Math.random() * 3}s`,
+            opacity: `${Math.random() * 0.7 + 0.3}`,
+          }}
+        ></div>
+      ))}
+    </div>
+  );
 
   return (
-    <div className="min-h-screen w-screen bg-gray-100 flex items-center justify-center p-6">
-      <div className="max-w-4xl w-full bg-white shadow-md rounded-lg p-6">
-        <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
+    <div
+      className="min-h-screen w-screen text-white relative overflow-hidden flex items-center justify-center p-6"
+      style={{
+        background: "linear-gradient(to bottom, #070F2B, #1B1A55, #535C91)",
+      }}
+    >
+      <StarField />
+
+      <div className="max-w-4xl w-full bg-gradient-to-r from-white via-gray-50 to-white bg-opacity-90 shadow-xl rounded-lg p-8 relative z-10">
+        <h1 className="text-4xl font-bold text-gray-900 mb-6 text-center">
           Observation Form
         </h1>
 
@@ -107,7 +123,7 @@ function InputForm() {
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label className="block font-medium text-gray-700 mb-2">
+            <label className="block font-medium text-gray-900 mb-2">
               Observation Date and Time: <span className="text-red-500">*</span>
             </label>
             <input
@@ -122,7 +138,7 @@ function InputForm() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div>
-              <label className="block font-medium text-gray-700 mb-2">
+              <label className="block font-medium text-gray-900 mb-2">
                 Right Ascension Hours:
               </label>
               <input
@@ -139,7 +155,7 @@ function InputForm() {
             </div>
 
             <div>
-              <label className="block font-medium text-gray-700 mb-2">
+              <label className="block font-medium text-gray-900 mb-2">
                 Right Ascension Minutes:
               </label>
               <input
@@ -156,7 +172,7 @@ function InputForm() {
             </div>
 
             <div>
-              <label className="block font-medium text-gray-700 mb-2">
+              <label className="block font-medium text-gray-900 mb-2">
                 Right Ascension Seconds:
               </label>
               <input
@@ -175,7 +191,7 @@ function InputForm() {
 
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
             <div>
-              <label className="block font-medium text-gray-700 mb-2">
+              <label className="block font-medium text-gray-900 mb-2">
                 Declination Degrees:
               </label>
               <input
@@ -192,7 +208,7 @@ function InputForm() {
             </div>
 
             <div>
-              <label className="block font-medium text-gray-700 mb-2">
+              <label className="block font-medium text-gray-900 mb-2">
                 Declination Minutes:
               </label>
               <input
@@ -209,7 +225,7 @@ function InputForm() {
             </div>
 
             <div>
-              <label className="block font-medium text-gray-700 mb-2">
+              <label className="block font-medium text-gray-900 mb-2">
                 Declination Seconds:
               </label>
               <input
@@ -226,7 +242,7 @@ function InputForm() {
             </div>
 
             <div>
-              <label className="block font-medium text-gray-700 mb-2">
+              <label className="block font-medium text-gray-900 mb-2">
                 Declination Direction:
               </label>
               <select
@@ -244,7 +260,7 @@ function InputForm() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <label className="block font-medium text-gray-700 mb-2">
+              <label className="block font-medium text-gray-900 mb-2">
                 Angle Above Horizon:
               </label>
               <input
@@ -261,7 +277,7 @@ function InputForm() {
             </div>
 
             <div>
-              <label className="block font-medium text-gray-700 mb-2">
+              <label className="block font-medium text-gray-900 mb-2">
                 Azimuth:
               </label>
               <input
