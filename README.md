@@ -1,1 +1,1 @@
-![demo](JSCHack/demo/demo.mov)
+![demo.mov](JSCHack/demo/demo.mov)
