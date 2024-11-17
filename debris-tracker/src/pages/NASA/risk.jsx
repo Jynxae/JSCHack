@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-//import { Layers } from 'lucide-react';
+import { Layers } from 'lucide-react';
 
 const DebrisCard = ({ debris }) => {
   // Safely convert values to numbers and handle potential null/undefined
