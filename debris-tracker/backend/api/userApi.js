@@ -1,21 +1,24 @@
-// api/userApi.js
 const express = require("express");
 const router = express.Router();
 const pool = require("../server/database");
 
-// Test endpoint
-router.get("/test", (req, res) => {
-  res.json({ message: "Backend is connected!" });
+// Simple test endpoint that also checks database connection
+router.get("/test", async (req, res) => {
+  console.log("here");
+
+  //   try {
+  //     // Test database connection
+  //     await pool.query("SELECT 1"); // Simple query to test connection
+  //     res.json({
+  //       message: "Backend and database connection successful!",
+  //       database: "Connected",
+  //     });
+  //   } catch (error) {
+  //     res.status(500).json({
+  //       message: "Backend connected, but database error",
+  //       database: "Error: " + error.message,
+  //     });
+  //   }
 });
 
-// Example database query endpoint
-router.get("/users", async (req, res) => {
-  try {
-    pool.query("SELECT * FROM users", (error, results) => {
-      if (error) throw error;
-      res.json(results);
-    });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
+module.exports = router;

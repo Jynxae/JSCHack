@@ -4,16 +4,12 @@ import CarinaNebulaBanner from "../../assets/CarinaNebulaBanner.png";
 
 function Navbar() {
   return (
-    <div className="relative w-full h-80">
-      {/* Banner Section */}
-      <div className="w-full h-full">
-        <img
-          src={CarinaNebulaBanner}
-          alt="Carina Nebula Banner"
-          className="w-full h-full object-cover"
-        />
-      </div>
-
+    <div
+      className="relative w-full h-80 bg-cover bg-center"
+      style={{
+        backgroundImage: `url(${CarinaNebulaBanner})`,
+      }}
+    >
       {/* Navbar Section */}
       <nav className="absolute top-0 left-0 w-full bg-white shadow-md">
         <div className="max-w-7xl mx-auto px-12 py-3 flex justify-between items-center">
