@@ -1,63 +1,56 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 
-function About() {
-  const [username, setUsername] = useState("");
-  const [error, setError] = useState(null);
+const About = () => {
+  const [scrollPosition, setScrollPosition] = useState(0);
+  const [backgroundColor, setBackgroundColor] = useState("#070F2B");
 
   useEffect(() => {
-    console.log("hello????");
-    const getUsername = async () => {
-      try {
-        const response = await axios.get(
-          "http://localhost:5171/api/user/getUsername/3"
-        );
-        console.log(response.data);
-        setUsername(response.data[0]?.Username || "");
-      } catch (error) {
-        console.error("Error fetching username:", error);
-        setError(error.message);
-      }
+    const handleScroll = () => {
+      const position = window.scrollY;
+      setScrollPosition(position);
+
+      // Calculate the scroll percentage (0 to 1)
+      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const scrollPercentage = Math.min(position / scrollHeight, 1);
+
+      // Colors in RGB format (reversed for dark to light)
+      const colors = [
+        { r: 7, g: 15, b: 43 },    // #070F2B (darkest)
+        { r: 27, g: 26, b: 85 },   // #1B1A55
+        { r: 83, g: 92, b: 145 },  // #535C91
+        { r: 146, g: 144, b: 195 }, // #9290C3 (lightest)
+      ];
+
+      // Interpolating between the colors based on scroll percentage
+      const index = Math.floor(scrollPercentage * (colors.length - 1));
+      const color1 = colors[index];
+      const color2 = colors[index + 1] || color1;
+      const localPercentage = (scrollPercentage * (colors.length - 1)) % 1;
+
+      const r = Math.round(color1.r + (color2.r - color1.r) * localPercentage);
+      const g = Math.round(color1.g + (color2.g - color1.g) * localPercentage);
+      const b = Math.round(color1.b + (color2.b - color1.b) * localPercentage);
+
+      setBackgroundColor(`rgb(${r}, ${g}, ${b})`);
     };
 
-    getUsername();
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
-    <div className="min-h-screen w-screen bg-gray-100 flex items-center justify-center p-6">
-      <div className="max-w-4xl bg-white shadow-lg rounded-lg p-8">
-        <h1 className="text-3xl font-bold text-gray-800 mb-4 text-center">
-          About the Debris Tracker
-        </h1>
-        <p className="text-gray-600 text-lg mb-4">
-          The Debris Tracker is a project designed to monitor and predict the
-          risks of space debris collision. Our mission is to ensure the safety
-          of satellites, space stations, and other critical space assets by
-          providing accurate risk assessments.
-        </p>
-        <p className="text-gray-600 text-lg mb-4">
-          This application leverages cutting-edge APIs, predictive analytics,
-          and real-time data visualization to deliver actionable insights for
-          space debris management.
-        </p>
-        <h2 className="text-xl font-semibold text-gray-800 mt-6 mb-2">
-          Features:
-        </h2>
-        <ul className="list-disc list-inside text-gray-600">
-          <li>Real-time debris tracking</li>
-          <li>Collision risk predictions</li>
-          <li>Interactive input forms for custom analyses</li>
-          <li>Secure and scalable architecture</li>
-        </ul>
-        <div className="mt-8 text-center">
-          <p className="text-gray-700 font-semibold">
-            Together, we are making space safer for everyone. Thank you{" "}
-            {username}!
-          </p>
-        </div>
+    <div
+      className="min-h-[300vh] text-white relative"
+      style={{
+        background: backgroundColor,
+        transition: "background 0.3s ease",
+      }}
+    >
+      <div className="sticky top-[30vh] flex flex-col items-center w-screen">
+        <div className="relative w-[300px] h-[300px] flex items-center"></div>
       </div>
     </div>
   );
-}
+};
 
 export default About;
